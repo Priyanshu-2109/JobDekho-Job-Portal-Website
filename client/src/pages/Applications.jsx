@@ -47,7 +47,7 @@ const Applications = () => {
         <tbody>
           {jobsApplied.map((job, index) => true? (
             <tr key={index}>
-             <td className='py-3 px-4 flex items-center gap-2 border-b'>
+             <td className='py-3 px-4 flex items-center gap-2 border-b '>
                   <img className='w-8 h-8' src={job.logo} alt="" />
                 {job.company}
               </td>
