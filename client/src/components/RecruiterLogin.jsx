@@ -14,6 +14,9 @@ const RecruiterLogin = () => {
     const [image, setImage] = useState(null)
     const [isTextDataSubmited, setIsTextDataSubmited] = useState(false)
 
+    // const { setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } = useContext(AppContext)
+    // const backendUrl = 'http://localhost:5000'
+    
     const { setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } = useContext(AppContext)
 
     const onSubmitHandler = async (e) => {
