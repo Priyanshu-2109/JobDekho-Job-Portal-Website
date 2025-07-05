@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth, useUser } from "@clerk/clerk-react";
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
 
@@ -67,22 +67,28 @@ export const AppContextProvider = (props) => {
     // Function to Fetch User Data
     const fetchUserData = async () => {
         try {
-
             const token = await getToken();
-
-            const { data } = await axios.get(backendUrl + '/api/users/user',
-                { headers: { Authorization: `Bearer ${token}` } })
-
-            if (data.success) {
-                setUserData(data.user)
-            } else (
-                toast.error(data.message)
-            )
-
+    
+            const { data } = await axios.get(backendUrl + '/api/users/user', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+    
+            console.log("API Response:", data); // ✅ Log entire API response
+    
+            if (data.success && data.user) {
+                console.log("User Found:", data.user);
+                setUserData(data.user);
+            } else {
+                console.log("User Not Found or Error:", data.message);
+                toast.error(data.message || "User Not Found");
+            }
+    
         } catch (error) {
-            toast.error(error.message)
+            console.error("Fetch User Data Error:", error);
+            toast.error(error.message);
         }
     }
+    
 
     // Function to Fetch User's Applied Applications
     const fetchUserApplications = async () => {
@@ -126,10 +132,11 @@ export const AppContextProvider = (props) => {
     // Fetch User's Applications & Data if User is Logged In
     useEffect(() => {
         if (user) {
-            fetchUserData()
-            fetchUserApplications()
+            
+            fetchUserData();
+            fetchUserApplications();
         }
-    }, [user])
+    }, [user]);
 
     const value = {
         setSearchFilter, searchFilter,
@@ -152,51 +159,6 @@ export const AppContextProvider = (props) => {
 
 }
 
-// import { createContext, useEffect } from "react";
-// import { useState } from "react";
-// import { jobsData } from "../assets/assets";
-
-// export const AppContext = createContext();
-
-// export const AppContextProvider = (props) =>
-// {
-//     const [searchFilter, setSearchFilter] = useState({
-//         title: '',
-//         location: '',
-//     });
-
-//     const[isSearched, setIsSearched] = useState(false);
-
-//     const[jobs,setJobs] = useState([]);
-
-//     const [showRecruiterLogin, setShowRecruiterLogin] = useState(false);
-
-//     //Function to fetch jobs
-//     const fetchJobs = async () => {
-//         setJobs(jobsData)
-//     }
-
-//     useEffect(() => {
-//         fetchJobs();
-//     },[]);
-
-
-//     const value = {
-//         searchFilter,
-//         setSearchFilter,
-//         isSearched, 
-//         setIsSearched,
-//         jobs,
-//         setJobs,
-//         showRecruiterLogin,
-//         setShowRecruiterLogin,
-//     };
-
-//     return(
-//         <AppContext.Provider value={value}>
-//             {props.children}
-//         </AppContext.Provider>
-//     )
-// }
+export default AppContextProvider;
 
 

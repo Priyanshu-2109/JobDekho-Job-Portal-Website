@@ -47,6 +47,8 @@ const ApplyJob = () => {
     try {
 
       if (!userData) {
+        // console.log("userData:", userData);
+
         return toast.error('Login to apply for jobs')
       }
 
